@@ -1,2 +1,0 @@
-# quality-electrodomesticos
-cliente arroyo

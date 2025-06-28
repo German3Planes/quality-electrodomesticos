@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality electrodomésticos - Seguridad garantizada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .product-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tv text-2xl"></i>
+                <h1 class="text-2xl font-bold">Quality electrodomésticos</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-blue-200">Inicio</a>
+                <a href="#products" class="hover:text-blue-200">Productos</a>
+                <a href="#about" class="hover:text-blue-200">Sobre Nosotros</a>
+                <a href="#contact" class="hover:text-blue-200">Contacto</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-blue-700 px-4 py-2">
+            <a href="#" class="block py-2 hover:text-blue-200">Inicio</a>
+            <a href="#products" class="block py-2 hover:text-blue-200">Productos</a>
+            <a href="#about" class="block py-2 hover:text-blue-200">Sobre Nosotros</a>
+            <a href="#contact" class="block py-2 hover:text-blue-200">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Carousel -->
+        <div class="w-full max-w-4xl mx-auto mt-8">
+            <div class="relative overflow-hidden rounded-xl shadow-2xl bg-white">
+                <div class="relative h-96 md:h-[32rem]">
+                    <div id="slides-container" class="relative w-full h-full"></div>
+                    <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 transition z-10">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-3 rounded-full hover:bg-black/50 transition z-10">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div id="indicators" class="flex justify-center gap-2 p-4"></div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const totalImages = 6;
+                const imagesPath = 'imagenes/';
+                const slidesContainer = document.getElementById('slides-container');
+                const indicatorsContainer = document.getElementById('indicators');
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                let currentSlide = 0;
+                for (let i = 0; i < totalImages; i++) {
+                    const slide = document.createElement('div');
+                    slide.className = `slide w-full h-full ${i === 0 ? 'active' : ''}`;
+                    const img = document.createElement('img');
+                    img.src = `${imagesPath}${i + 1}.jpg`;
+                    img.alt = `Imagen ${i + 1}`;
+                    img.className = 'w-full h-full object-cover';
+                    slide.appendChild(img);
+                    slidesContainer.appendChild(slide);
+                    const indicator = document.createElement('button');
+                    indicator.className = `w-3 h-3 rounded-full ${i === 0 ? 'bg-indigo-600' : 'bg-gray-300'}`;
+                    indicator.dataset.index = i;
+                    indicator.addEventListener('click', () => goToSlide(i));
+                    indicatorsContainer.appendChild(indicator);
+                }
+                const slides = document.querySelectorAll('.slide');
+                const indicators = document.querySelectorAll('#indicators button');
+                function goToSlide(index) {
+                    slides[currentSlide].classList.remove('active');
+                    indicators[currentSlide].classList.remove('bg-indigo-600');
+                    indicators[currentSlide].classList.add('bg-gray-300');
+                    currentSlide = (index + totalImages) % totalImages;
+                    slides[currentSlide].classList.add('active');
+                    indicators[currentSlide].classList.remove('bg-gray-300');
+                    indicators[currentSlide].classList.add('bg-indigo-600');
+                }
+                prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+                nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+                let autoplayInterval = setInterval(() => goToSlide(currentSlide + 1), 5000);
+                slidesContainer.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+                slidesContainer.addEventListener('mouseleave', () => {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = setInterval(() => goToSlide(currentSlide + 1), 5000);
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+                    if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+                });
+            });
+        </script>
+
+        <!-- Productos Destacados -->
+        <section id="products" class="container mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Nuestros Productos</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+                Descubre nuestra amplia gama de electrodomésticos de última generación para hacer tu hogar más cómodo y eficiente.
+            </p>
+            <div id="productContainer" class="product-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+        <script>
+            // Datos de ejemplo de productos
+            const products = [
+                { id: 1, name: "Lavadora Samsung 18kg", description: "Lavadora de carga frontal con tecnología EcoBubble que lava la ropa con burbujas, reduciendo el consumo de energía y cuidando tus prendas.", price: 899.99, image: "imagenes/1.jpg" },
+                { id: 2, name: "Refrigerador LG Side by Side", description: "Refrigerador de 22 pies cúbicos con dispensador de hielo y agua, sistema de enfriamiento lineal y diseño ergonómico.", price: 1299.99, image: "imagenes/2.jpg" },
+                { id: 3, name: "Horno de Microondas Panasonic", description: "Horno de microondas de 1.2 pies cúbicos con tecnología inverter para calentar uniformemente y 10 niveles de potencia.", price: 159.99, image: "imagenes/3.jpg" },
+                { id: 4, name: "Licuadora Oster Pro 1200", description: "Licuadora profesional de 1200W con jarra de vidrio de 6 tazas y cuchillas de acero inoxidable de alta resistencia.", price: 89.99, image: "imagenes/4.jpg" },
+                { id: 5, name: "Aire Acondicionado Midea 12,000 BTU", description: "Aire acondicionado de ventana con WiFi, control por voz, modo eco y filtro antibacterial para mejorar la calidad del aire.", price: 449.99, image: "imagenes/5.jpg" },
+                { id: 6, name: "Aspiradora Robot Xiaomi", description: "Aspiradora robot inteligente con mapeo láser, control por app, programación de horarios y gran capacidad de succión.", price: 299.99, image: "imagenes/6.jpg" }
+            ];
+            const productContainer = document.getElementById('productContainer');
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 cursor-pointer product-card';
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                        <p class="text-gray-600 mt-1">${product.description}</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-2xl font-bold text-blue-600">$${product.price.toFixed(2)}</span>
+                            <button class="bg-green-600 text-white rounded-lg px-4 py-2 shadow-md hover:bg-green-700 transition">
+                                <i class="fas fa-cart-plus mr-2"></i> Agregar al carrito
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productContainer.appendChild(productCard);
+            });
+        </script>
+
+        <!-- Sobre Nosotros -->
+        <section id="about" class="bg-gray-100 py-16">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                        <h2 class="text-3xl font-bold mb-6 text-gray-800">Sobre Quality electrodomésticos</h2>
+                        <p class="text-gray-600 mb-4">
+                            En Quality electrodomésticos nos especializamos en proveer los mejores electrodomésticos para tu hogar. Con más de 10 años en el mercado, nos enorgullecemos de ofrecer productos de calidad con garantía.
+                        </p>
+                        <p class="text-gray-600 mb-6">
+                            Nuestro equipo de expertos está siempre disponible para asesorarte y ayudarte a encontrar el producto perfecto para tus necesidades.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow">
+                                <i class="fas fa-shield-alt text-blue-500 text-2xl mr-3"></i>
+                                <span>Garantía extendida</span>
+                            </div>
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow">
+                                <i class="fas fa-truck text-blue-500 text-2xl mr-3"></i>
+                                <span>Envío gratis</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="About ElectroShop" class="rounded-lg shadow-xl w-full h-80 object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contact" class="container mx-auto px-4 py-16">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Contáctanos</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+                ¿Tienes alguna pregunta? Completa el formulario y nos pondremos en contacto contigo lo antes posible.
+            </p>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
+                    <form id="contactForm">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Nombre</label>
+                            <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Mensaje</label>
+                            <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg w-full">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+                <div class="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Información de Contacto</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-blue-500 text-xl mr-4 mt-1"></i>
+                                <p>Argentina - San Juan</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-phone-alt text-blue-500 text-xl mr-4"></i>
+                                <p>+54 (264) 443-3403</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-blue-500 text-xl mr-4"></i>
+                                <p>info@Quality.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Horario de Atención</h3>
+                        <ul class="space-y-2">
+                            <li class="flex justify-between">
+                                <span>Lunes - Viernes</span>
+                                <span>9:00 AM - 7:00 PM</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Sábado</span>
+                                <span>10:00 AM - 5:00 PM</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Domingo</span>
+                                <span>Cerrado</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Síguenos</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-blue-500 hover:text-blue-700 text-2xl"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-blue-400 hover:text-blue-600 text-2xl"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-pink-500 hover:text-pink-700 text-2xl"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quality electrodomésticos</h3>
+                    <p class="text-gray-400">Tu tienda confiable para todos los electrodomésticos que necesitas para tu hogar.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Inicio</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Productos</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">Sobre Nosotros</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categorías</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Lavadoras</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Refrigeradores</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cocinas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pequeños Electrodomésticos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Suscríbete</h4>
+                    <p class="text-gray-400 mb-4">Recibe nuestras ofertas y novedades en tu email.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Tu email" class="px-4 py-2 text-gray-800 rounded-l-lg w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Quality electrodomésticos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
