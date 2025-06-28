@@ -7,32 +7,7 @@
     <title>Quality electrodomésticos - Seguridad garantizada</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .slide {
-            transition: opacity 0.5s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 640px) {
-            .product-grid {
-                grid-template-columns: repeat(1, 1fr);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bg-gray-50 font-sans">
@@ -273,6 +248,50 @@
             </div>
         </section>
     </main>
+
+    <!-- Botón de inicio de sesión -->
+    <button id="openModalBtn" class="login-modal-btn fixed bottom-8 right-8 shadow-lg z-50">Iniciar Sesión</button>
+
+    <!-- Ventana emergente (modal) -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Bienvenido admin</h2>
+            <p>Complete con sus datos por favor</p>
+            <form id="loginForm">
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit" class="login-modal-btn w-full mt-2">Entrar</button>
+            </form>
+            <div class="close" id="closeModalBtn">Cerrar</div>
+        </div>
+    </div>
+    <script src="modal.js"></script>
+    <script>
+        // Lógica de login (AJAX ejemplo, puedes adaptarlo a tu backend)
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const username = this.username.value;
+            const password = this.password.value;
+            try {
+                const res = await fetch('http://localhost:3001/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Login exitoso');
+                    document.getElementById('loginModal').style.display = 'none';
+                    // Aquí puedes mostrar opciones de admin, recargar productos, etc.
+                } else {
+                    alert(data.message || 'Error de login');
+                }
+            } catch (err) {
+                alert('Error de conexión');
+            }
+        };
+    </script>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
