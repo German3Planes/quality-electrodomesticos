@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality electrodomésticos - Seguridad garantizada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tv text-2xl"></i>
+                <h1 class="text-2xl font-bold">Quality electrodomésticos</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-blue-200">Inicio</a>
+                <a href="index.html#products" class="hover:text-blue-200">Productos</a>
+                <a href="sobre%20nosotros.html" class="hover:text-blue-200">Sobre Nosotros</a>
+                <a href="Contacto.html" class="hover:text-blue-200">Contacto</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-blue-700 px-4 py-2">
+            <a href="index.html" class="block py-2 hover:text-blue-200">Inicio</a>
+            <a href="index.html#products" class="block py-2 hover:text-blue-200">Productos</a>
+            <a href="sobre%20nosotros.html" class="block py-2 hover:text-blue-200">Sobre Nosotros</a>
+            <a href="Contacto.html" class="block py-2 hover:text-blue-200">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Main Content: SOLO CONTACTO -->
+    <main>
+        <section id="contact" class="container mx-auto px-4 py-16">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Contáctanos</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+                ¿Tienes alguna pregunta? Completa el formulario y nos pondremos en contacto contigo lo antes posible.
+            </p>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
+                    <form id="contactForm">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Nombre</label>
+                            <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Mensaje</label>
+                            <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg w-full">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+                <div class="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Información de Contacto</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-blue-500 text-xl mr-4 mt-1"></i>
+                                <p>Argentina - San Juan</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-phone-alt text-blue-500 text-xl mr-4"></i>
+                                <p>+54 (264) 443-3403</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-blue-500 text-xl mr-4"></i>
+                                <p>info@Quality.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Horario de Atención</h3>
+                        <ul class="space-y-2">
+                            <li class="flex justify-between">
+                                <span>Lunes - Viernes</span>
+                                <span>9:00 AM - 7:00 PM</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Sábado</span>
+                                <span>10:00 AM - 5:00 PM</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Domingo</span>
+                                <span>Cerrado</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Síguenos</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-blue-500 hover:text-blue-700 text-2xl"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-blue-400 hover:text-blue-600 text-2xl"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-pink-500 hover:text-pink-700 text-2xl"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quality electrodomésticos</h3>
+                    <p class="text-gray-400">Tu tienda confiable para todos los electrodomésticos que necesitas para tu hogar.</p>
+                    <button id="openModalBtn" class="login-modal-btn text-xs opacity-60 hover:opacity-100 transition mt-4">Inicio de sesión para administrador</button>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition">Inicio</a></li>
+                        <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Productos</a></li>
+                        <li><a href="index.html#about" class="text-gray-400 hover:text-white transition">Sobre Nosotros</a></li>
+                        <li><a href="Contacto.html" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categorías</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Lavadoras</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Refrigeradores</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cocinas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pequeños Electrodomésticos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Suscríbete</h4>
+                    <p class="text-gray-400 mb-4">Recibe nuestras ofertas y novedades en tu email.</p>
+                    <div class="flex mb-4">
+                        <input type="email" placeholder="Tu email" class="px-4 py-2 text-gray-800 rounded-l-lg w-full focus:outline-none">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Quality electrodomésticos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Bienvenido admin</h2>
+            <p>Complete con sus datos por favor</p>
+            <form id="loginForm">
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit" class="login-modal-btn w-full mt-2">Entrar</button>
+            </form>
+            <div class="close" id="closeModalBtn">Cerrar</div>
+        </div>
+    </div>
+    <script src="modal.js"></script>
+    <script>
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const username = this.username.value;
+            const password = this.password.value;
+            try {
+                const res = await fetch('http://localhost:3001/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Login exitoso');
+                    document.getElementById('loginModal').style.display = 'none';
+                } else {
+                    alert(data.message || 'Error de login');
+                }
+            } catch (err) {
+                alert('Error de conexión');
+            }
+        };
+    </script>
+</body>
+</html>

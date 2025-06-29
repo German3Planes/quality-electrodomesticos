@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Productos - Quality electrodomésticos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tv text-2xl"></i>
+                <h1 class="text-2xl font-bold">Quality electrodomésticos</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-blue-200">Inicio</a>
+                <a href="productos.html" class="hover:text-blue-200">Productos</a>
+                <a href="sobre%20nosotros.html" class="hover:text-blue-200">Sobre Nosotros</a>
+                <a href="Contacto.html" class="hover:text-blue-200">Contacto</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-blue-700 px-4 py-2">
+            <a href="index.html" class="block py-2 hover:text-blue-200">Inicio</a>
+            <a href="productos.html" class="block py-2 hover:text-blue-200">Productos</a>
+            <a href="sobre%20nosotros.html" class="block py-2 hover:text-blue-200">Sobre Nosotros</a>
+            <a href="Contacto.html" class="block py-2 hover:text-blue-200">Contacto</a>
+        </div>
+    </nav>
+    <main>
+        <section class="container mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Administrar Productos</h2>
+            <!-- Formulario para agregar producto -->
+            <form id="formAgregarProducto" class="bg-white rounded-lg shadow-md p-6 mb-8 max-w-xl mx-auto">
+                <h3 class="text-xl font-semibold mb-4">Agregar nuevo producto</h3>
+                <input name="nombre" placeholder="Nombre" class="input mb-2 w-full" required>
+                <input name="descripcion" placeholder="Descripción" class="input mb-2 w-full" required>
+                <input name="precio" type="number" placeholder="Precio" class="input mb-2 w-full" required min="0" step="0.01">
+                <input name="image" placeholder="URL de imagen (opcional)" class="input mb-2 w-full">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Agregar producto</button>
+            </form>
+            <!-- Lista de productos -->
+            <div id="adminProductContainer" class="product-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Quality electrodomésticos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+    // Agregar producto
+    document.getElementById('formAgregarProducto').onsubmit = async function(e) {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(this));
+        try {
+            const res = await fetch('http://localhost:3000/productos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) {
+                alert('Producto creado');
+                this.reset();
+                cargarProductosAdmin();
+            } else {
+                alert(await res.text());
+            }
+        } catch (err) {
+            alert('Error de conexión');
+        }
+    };
+    // Cargar productos y mostrar menú de acciones
+    async function cargarProductosAdmin() {
+        const container = document.getElementById('adminProductContainer');
+        container.innerHTML = '<p class="text-center col-span-3">Cargando productos...</p>';
+        try {
+            const res = await fetch('http://localhost:3000/productos');
+            const products = await res.json();
+            container.innerHTML = '';
+            if (products.length === 0) {
+                container.innerHTML = '<p class="text-center col-span-3 text-gray-500">No hay productos disponibles.</p>';
+            }
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-md overflow-hidden relative';
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image || 'imagenes/default.jpg'}" alt="${product.nombre}" class="w-full h-48 object-cover">
+                        <button class="absolute top-2 right-2 text-gray-600 hover:text-blue-600 focus:outline-none menu-btn" data-id="${product.id}">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="menu-options hidden absolute top-8 right-2 bg-white border rounded shadow z-10">
+                            <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 editar-btn" data-id="${product.id}">Editar</button>
+                            <button class="block w-full text-left px-4 py-2 hover:bg-gray-100 eliminar-btn" data-id="${product.id}">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800">${product.nombre}</h3>
+                        <p class="text-gray-600 mt-1">${product.descripcion}</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-2xl font-bold text-blue-600">$${Number(product.precio).toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            // Menú de 3 puntos
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    const menu = this.nextElementSibling;
+                    document.querySelectorAll('.menu-options').forEach(m => m.classList.add('hidden'));
+                    menu.classList.toggle('hidden');
+                };
+            });
+            // Cerrar menú al hacer click fuera
+            document.body.onclick = () => document.querySelectorAll('.menu-options').forEach(m => m.classList.add('hidden'));
+            // Eliminar producto
+            document.querySelectorAll('.eliminar-btn').forEach(btn => {
+                btn.onclick = async function() {
+                    if (confirm('¿Seguro que deseas eliminar este producto?')) {
+                        await fetch(`http://localhost:3000/productos/${this.dataset.id}`, { method: 'DELETE' });
+                        cargarProductosAdmin();
+                    }
+                };
+            });
+            // Editar producto (puedes implementar un modal o formulario de edición)
+            document.querySelectorAll('.editar-btn').forEach(btn => {
+                btn.onclick = function() {
+                    alert('Funcionalidad de edición pendiente de implementar');
+                };
+            });
+        } catch (err) {
+            container.innerHTML = '<p class="text-center col-span-3 text-red-500">Error al cargar productos</p>';
+        }
+    }
+    window.onload = cargarProductosAdmin;
+    </script>
+</body>
+</html>
