@@ -117,7 +117,7 @@
             const productContainer = document.getElementById('productContainer');
             productContainer.innerHTML = '<p class="text-center col-span-3">Cargando productos...</p>';
             try {
-                const res = await fetch('http://localhost:3000/productos');
+                const res = await fetch('https://quality-electrodom-sticos-vercel.vercel.app/api/producto');
                 const products = await res.json();
                 productContainer.innerHTML = '';
                 if (products.length === 0) {
@@ -223,7 +223,7 @@
             const username = this.username.value;
             const password = this.password.value;
             try {
-                const res = await fetch('http://localhost:3000/api/admin/login', {
+                const res = await fetch('https://quality-electrodom-sticos-vercel.vercel.app/api/admin/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password }),
