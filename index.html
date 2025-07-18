@@ -242,6 +242,18 @@
             }
         };
     </script>
+    <script>
+fetch('https://quality-electrodom-sticos-vercel.vercel.app/api/producto')
+  .then(res => res.json())
+  .then(data => {
+    console.log('Productos:', data);
+    // Acá podés armar las cards dinámicamente
+  })
+  .catch(err => {
+    console.error('Error al cargar productos:', err);
+  });
+</script>
+
 </body>
 
 </html>
